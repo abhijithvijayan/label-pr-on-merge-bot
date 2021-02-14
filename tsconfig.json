@@ -1,6 +1,7 @@
 {
 	"extends": "@abhijithvijayan/tsconfig",
 	"compilerOptions": {
+	  	"target": "es6",
 		"outDir": "lib",
 	  	"declaration": false
 	},
