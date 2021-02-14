@@ -4,7 +4,6 @@
 		"@abhijithvijayan/eslint-config/node"
 	],
 	"parserOptions": {
-	  	"parser": "@babel/eslint-parser",
 		"sourceType": "module"
 	},
 	"rules": {
