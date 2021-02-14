@@ -1,6 +1,6 @@
 {
 	"name": "label-pr-on-merge-bot",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Label pull requests with custom label on merge",
 	"license": "MIT",
 	"repository": "https://github.com/abhijithvijayan/label-pr-on-merge-bot.git",
