@@ -37,7 +37,10 @@
 		"github-merge-label-bot",
 		"github-label"
 	],
-	"dependencies": {},
+	"dependencies": {
+		"@actions/core": "^1.2.6",
+		"@actions/github": "^4.0.0"
+	},
 	"devDependencies": {
 		"@abhijithvijayan/eslint-config": "2.5.6",
 		"@abhijithvijayan/eslint-config-airbnb": "^1.0.2",

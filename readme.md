@@ -40,8 +40,40 @@
 
 ## Usage
 
+## Example usage
+
+You can use PR Merge Bot by configuring a YAML-based workflow file, e.g. `.github/workflows/label-pr-on-merge-bot.yml`.
+
+```yaml
+name: Label PR on Merge Bot
+
+on:
+	pull_request:
+		types: [ closed ]
+
+jobs:
+	merge_job:
+		# this job will only run if the PR has been merged
+		if: github.event.pull_request.merged == true
+		runs-on: ubuntu-latest
+		name: Label PR
+		steps:
+		- name: Label Check
+		  uses: abhijithvijayan/label-pr-on-merge-bot@v0.1.0
+		  with:
+			  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+			  label: 'bot: label on merge'
+			  post_merged_label: '🚀 merged'
+
+	close_job:
+		# this job will only run if the PR has been closed without being merged
+		if: github.event.pull_request.merged == false
+		runs-on: ubuntu-latest
+		steps:
+		- run: |
+			  echo PR #${{ github.event.number }} has been closed without being merged
 ```
-```
+
 
 ## Issues
 
