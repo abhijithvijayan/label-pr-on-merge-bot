@@ -12,14 +12,17 @@
 	"engines": {
 		"node": ">=12.18.3"
 	},
-	"bin": "source/index.js",
+	"bin": "lib/index.js",
 	"files": [
-		"source"
+		"lib"
 	],
 	"scripts": {
+		"dev": "tsc --watch",
+		"build": "rimraf lib && tsc",
 		"pack:list": "npm pack && tar -xvzf *.tgz && rm -rf package *.tgz",
-		"lint": "eslint . --ext .js",
-		"lint:fix": "eslint . --ext .js --fix"
+		"prepublishOnly": "yarn build",
+		"lint": "eslint . --ext .ts",
+		"lint:fix": "eslint . --ext .ts --fix"
 	},
 	"husky": {
 		"hooks": {
@@ -27,8 +30,8 @@
 		}
 	},
 	"lint-staged": {
-		"*.js": [
-			"yarn run lint:fix"
+		"*.ts": [
+			"eslint ."
 		]
 	},
 	"keywords": [
@@ -44,8 +47,10 @@
 	"devDependencies": {
 		"@abhijithvijayan/eslint-config": "2.6.1",
 		"@abhijithvijayan/eslint-config-airbnb": "^1.0.2",
+		"@abhijithvijayan/tsconfig": "^1.3.0",
 		"@babel/core": "^7.12.16",
 		"@babel/eslint-parser": "^7.12.16",
+		"@types/node": "^14.14.27",
 		"@typescript-eslint/eslint-plugin": "^4.15.0",
 		"@typescript-eslint/parser": "^4.15.0",
 		"eslint": "^7.20.0",
@@ -58,6 +63,8 @@
 		"eslint-plugin-react-hooks": "^4.2.0",
 		"husky": "^5.0.9",
 		"lint-staged": "^10.5.4",
-		"prettier": "^2.2.1"
+		"prettier": "^2.2.1",
+		"rimraf": "^3.0.2",
+		"typescript": "^4.1.5"
 	}
 }

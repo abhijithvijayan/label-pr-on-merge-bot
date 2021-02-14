@@ -1,17 +1,19 @@
+#!/usr/bin/env node
+
 /**
- *  label-pr-on-merge-bot
+ *  node-cli-ts-starter
  *
- *  @author   abhijithvijayan <abhijithvijayan.in>
+ *  @author   abhijithvijayan <https://abhijithvijayan.in>
  *  @license  MIT License
  */
 
-const core = require('@actions/core');
-const github = require('@actions/github');
+import github from '@actions/github';
+import core from '@actions/core';
 
 try {
-  const token = core.getInput('GITHUB_TOKEN');
-  const triggerLabel = core.getInput('label');
-  const postMergedLabel = core.getInput('post_merged_label');
+  const token: string = core.getInput('GITHUB_TOKEN');
+  const triggerLabel: string = core.getInput('label');
+  const postMergedLabel: string = core.getInput('post_merged_label');
   console.log({token, triggerLabel, postMergedLabel});
 
   const time = new Date().toTimeString();

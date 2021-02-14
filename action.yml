@@ -14,4 +14,4 @@ inputs:
     required: true
 runs:
   using: 'node12'
-  main: 'source/index.js'
+  main: 'lib/index.js'
