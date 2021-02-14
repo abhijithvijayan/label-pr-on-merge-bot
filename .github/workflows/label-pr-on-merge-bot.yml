@@ -1,0 +1,17 @@
+name: Label PR on Merge Bot Action
+
+on:
+  pull_request:
+    types: [ closed ]
+
+jobs:
+  label_pr_job:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label PR on Merge Bot
+        uses: abhijithvijayan/label-pr-on-merge-bot@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          label: 'bot: label on merge'
+          post_merged_label: '🚀 merged'
