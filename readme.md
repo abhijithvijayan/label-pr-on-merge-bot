@@ -1,5 +1,5 @@
 <h1 align="center">label-pr-on-merge-bot</h1>
-<p align="center">GitHub Actions Bot to label pull requests with custom label on merge</p>
+<p align="center">GitHub Actions Bot to label specific pull requests with custom label on merge</p>
 <div align="center">
   <a href="https://travis-ci.com/abhijithvijayan/label-pr-on-merge-bot">
     <img src="https://travis-ci.com/abhijithvijayan/label-pr-on-merge-bot.svg?branch=main" alt="Travis Build" />
@@ -28,6 +28,11 @@
 </p>
 <hr />
 
+Add a trigger label to the PR
+![screenshot 1](.github/screenshots/screenshot-1.png)
+Bot will add post merge label to the PR once it's merged
+![screenshot 2](.github/screenshots/screenshot-2.png)
+
 ❤️ it? ⭐️ it on [GitHub](https://github.com/abhijithvijayan/label-pr-on-merge-bot/stargazers) or [Tweet](https://twitter.com/intent/tweet?text=Check%20out%20label-pr-on-merge-bot%21%20by%20%40_abhijithv%0A%0AGitHub%20Actions%20Bot%20to%20label%20pull%20requests%20with%20custom%20label%20on%20merge%0Ahttps%3A%2F%2Fgithub.com%2Fabhijithvijayan%2Flabel-pr-on-merge-bot%0A%0A%23node%20%23javascript%20%23github%20%23bot%20%23npm) about it.
 
 ## Table of Contents
@@ -38,11 +43,12 @@
 - [Publish](#publish)
 - [LICENSE](#license)
 
-
 ## Usage
 
-## Example usage
+The bot is particularly useful when you want to trigger some CI(to deploy the branch) by adding label to the PR, only after it is merged.
+This also helps if you want to avoid deployment costs with multiple deployments with every PR merge.
 
+### Sample workflow
 You can use PR Merge Bot by configuring a YAML-based workflow file, e.g. `.github/workflows/label-pr-on-merge-bot.yml`.
 
 ```yaml
@@ -64,7 +70,6 @@ jobs:
           label: 'bot: label on merge'
           post_merged_label: '🚀 merged'
 ```
-
 
 ## Issues
 
