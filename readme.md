@@ -35,6 +35,7 @@
 - [Usage](#usage)
 - [Issues](#issues)
   - [🐛 Bugs](#-bugs)
+- [Publish to a distribution branch](#publish-to-a-distribution-branch)
 - [LICENSE](#license)
 
 
@@ -75,6 +76,19 @@ label._
 Please file an issue [here](https://github.com/abhijithvijayan/label-pr-on-merge-bot/issues/new) for bugs, missing documentation, or unexpected behavior.
 
 [**See Bugs**](https://github.com/abhijithvijayan/label-pr-on-merge-bot/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22type%3A+bug%22)
+
+## Publish to a distribution branch
+
+Actions are run from GitHub repos, so we will checkin the packed dist folder.
+
+Then run [ncc](https://github.com/zeit/ncc) and push the results:
+```bash
+yarn package
+git add dist
+git commit -a -m "prod dependencies"
+git push origin releases/v1
+```
+
 
 ### Linting & TypeScript Config
 

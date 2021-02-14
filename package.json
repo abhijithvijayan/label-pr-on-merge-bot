@@ -12,7 +12,7 @@
 	"engines": {
 		"node": ">=12.18.3"
 	},
-	"bin": "lib/index.js",
+	"main": "lib/index.js",
 	"files": [
 		"lib"
 	],
@@ -20,7 +20,7 @@
 		"dev": "tsc --watch",
 		"build": "rimraf lib && tsc",
 		"pack:list": "npm pack && tar -xvzf *.tgz && rm -rf package *.tgz",
-		"prepublishOnly": "yarn build",
+		"package": "ncc build --source-map --license licenses.txt",
 		"lint": "eslint . --ext .ts",
 		"lint:fix": "eslint . --ext .ts --fix"
 	},
@@ -53,6 +53,7 @@
 		"@types/node": "^14.14.27",
 		"@typescript-eslint/eslint-plugin": "^4.15.0",
 		"@typescript-eslint/parser": "^4.15.0",
+		"@vercel/ncc": "^0.27.0",
 		"eslint": "^7.20.0",
 		"eslint-config-prettier": "^7.2.0",
 		"eslint-plugin-import": "^2.22.1",
