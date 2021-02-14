@@ -56,8 +56,6 @@ async function run(): Promise<void> {
 
     await removeLabels(octokit, prNumber, [triggerLabel]);
     console.log('Removed bot trigger label from pull request, exiting');
-
-    core.setOutput('time', new Date().toTimeString());
   } catch (err) {
     core.setFailed(err.message);
   }
