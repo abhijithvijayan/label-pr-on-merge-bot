@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Label PR on Merge Bot
-        uses: abhijithvijayan/label-pr-on-merge-bot@0.1.0
+        uses: abhijithvijayan/label-pr-on-merge-bot@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           label: 'bot: label on merge'
