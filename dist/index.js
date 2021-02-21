@@ -42,8 +42,7 @@ const utils_1 = __nccwpck_require__(918);
 var BotInput;
 (function (BotInput) {
     BotInput["GITHUB_TOKEN"] = "GITHUB_TOKEN";
-    BotInput["TRIGGER_LABEL"] = "label";
-    BotInput["POST_MERGE_LABEL"] = "post_merged_label";
+    BotInput["MERGED_LABEL"] = "merged_label";
 })(BotInput || (BotInput = {}));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -60,18 +59,13 @@ function run() {
                 repo: github.context.repo.repo,
                 pull_number: prNumber,
             });
-            const triggerLabel = core.getInput(BotInput.TRIGGER_LABEL).trim();
-            if (pullRequest.labels.findIndex((existingLabel) => existingLabel.name === triggerLabel) === -1) {
-                console.log("Pull request doesn't have the trigger label, exiting");
+            const mergedLabel = core.getInput(BotInput.MERGED_LABEL).trim();
+            if (pullRequest.labels.findIndex((existingLabel) => existingLabel.name === mergedLabel) !== -1) {
+                console.log('Pull request already has the label, exiting');
                 return;
             }
-            const postMergedLabel = core
-                .getInput(BotInput.POST_MERGE_LABEL)
-                .trim();
-            yield utils_1.addLabels(octokit, prNumber, [postMergedLabel]);
+            yield utils_1.addLabels(octokit, prNumber, [mergedLabel]);
             console.log('Label added to pull request');
-            yield utils_1.removeLabels(octokit, prNumber, [triggerLabel]);
-            console.log('Removed bot trigger label from pull request, exiting');
         }
         catch (err) {
             core.setFailed(err.message);
@@ -117,7 +111,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.removeLabels = exports.addLabels = exports.getPrNumber = void 0;
+exports.addLabels = exports.getPrNumber = void 0;
 const github = __importStar(__nccwpck_require__(438));
 function getPrNumber() {
     const pullRequest = github.context.payload.pull_request;
@@ -138,17 +132,6 @@ function addLabels(client, prNumber, labels) {
     });
 }
 exports.addLabels = addLabels;
-function removeLabels(client, prNumber, labels) {
-    return __awaiter(this, void 0, void 0, function* () {
-        yield Promise.all(labels.map((label) => client.issues.removeLabel({
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo,
-            issue_number: prNumber,
-            name: label,
-        })));
-    });
-}
-exports.removeLabels = removeLabels;
 
 
 /***/ }),
@@ -2126,7 +2109,7 @@ exports.withCustomRequest = withCustomRequest;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 
-const VERSION = "2.9.1";
+const VERSION = "2.10.0";
 
 /**
  * Some “list” response that can be paginated have a different response structure
@@ -2428,12 +2411,16 @@ const Endpoints = {
     update: ["PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}"]
   },
   codeScanning: {
+    deleteAnalysis: ["DELETE /repos/{owner}/{repo}/code-scanning/analyses/{analysis_id}{?confirm_delete}"],
     getAlert: ["GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}", {}, {
       renamedParameters: {
         alert_id: "alert_number"
       }
     }],
+    getAnalysis: ["GET /repos/{owner}/{repo}/code-scanning/analyses/{analysis_id}"],
+    getSarif: ["GET /repos/{owner}/{repo}/code-scanning/sarifs/{sarif_id}"],
     listAlertsForRepo: ["GET /repos/{owner}/{repo}/code-scanning/alerts"],
+    listAlertsInstances: ["GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances"],
     listRecentAnalyses: ["GET /repos/{owner}/{repo}/code-scanning/analyses"],
     updateAlert: ["PATCH /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}"],
     uploadSarif: ["POST /repos/{owner}/{repo}/code-scanning/sarifs"]
@@ -2705,6 +2692,25 @@ const Endpoints = {
     updateMembershipForAuthenticatedUser: ["PATCH /user/memberships/orgs/{org}"],
     updateWebhook: ["PATCH /orgs/{org}/hooks/{hook_id}"],
     updateWebhookConfigForOrg: ["PATCH /orgs/{org}/hooks/{hook_id}/config"]
+  },
+  packages: {
+    deletePackageForAuthenticatedUser: ["DELETE /user/packages/{package_type}/{package_name}"],
+    deletePackageForOrg: ["DELETE /orgs/{org}/packages/{package_type}/{package_name}"],
+    deletePackageVersionForAuthenticatedUser: ["DELETE /user/packages/{package_type}/{package_name}/versions/{package_version_id}"],
+    deletePackageVersionForOrg: ["DELETE /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}"],
+    getAllPackageVersionsForAPackageOwnedByAnOrg: ["GET /orgs/{org}/packages/{package_type}/{package_name}/versions"],
+    getAllPackageVersionsForAPackageOwnedByTheAuthenticatedUser: ["GET /user/packages/{package_type}/{package_name}/versions"],
+    getAllPackageVersionsForPackageOwnedByUser: ["GET /users/{username}/packages/{package_type}/{package_name}/versions"],
+    getPackageForAuthenticatedUser: ["GET /user/packages/{package_type}/{package_name}"],
+    getPackageForOrganization: ["GET /orgs/{org}/packages/{package_type}/{package_name}"],
+    getPackageForUser: ["GET /users/{username}/packages/{package_type}/{package_name}"],
+    getPackageVersionForAuthenticatedUser: ["GET /user/packages/{package_type}/{package_name}/versions/{package_version_id}"],
+    getPackageVersionForOrganization: ["GET /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}"],
+    getPackageVersionForUser: ["GET /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}"],
+    restorePackageForAuthenticatedUser: ["POST /user/packages/{package_type}/{package_name}/restore"],
+    restorePackageForOrg: ["POST /orgs/{org}/packages/{package_type}/{package_name}/restore"],
+    restorePackageVersionForAuthenticatedUser: ["POST /user/packages/{package_type}/{package_name}/versions/{package_version_id}/restore"],
+    restorePackageVersionForOrg: ["POST /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore"]
   },
   projects: {
     addCollaborator: ["PUT /projects/{project_id}/collaborators/{username}", {
@@ -3307,7 +3313,7 @@ const Endpoints = {
   }
 };
 
-const VERSION = "4.10.3";
+const VERSION = "4.12.0";
 
 function endpointsToMethods(octokit, endpointsMap) {
   const newMethods = {};
@@ -3389,17 +3395,6 @@ function decorate(octokit, scope, methodName, defaults, decorations) {
 
   return Object.assign(withDecorations, requestWithDefaults);
 }
-
-/**
- * This plugin is a 1:1 copy of internal @octokit/rest plugins. The primary
- * goal is to rebuild @octokit/rest on top of @octokit/core. Once that is
- * done, we will remove the registerEndpoints methods and return the methods
- * directly as with the other plugins. At that point we will also remove the
- * legacy workarounds and deprecations.
- *
- * See the plan at
- * https://github.com/octokit/plugin-rest-endpoint-methods.js/pull/1
- */
 
 function restEndpointMethods(octokit) {
   return endpointsToMethods(octokit, Endpoints);
