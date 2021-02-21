@@ -59,7 +59,7 @@ jobs:
         uses: abhijithvijayan/label-pr-on-merge-bot@v2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-		  merged_label: '🚀 merged'
+          merged_label: '🚀 merged'
 ```
 
 ## Issues
