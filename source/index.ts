@@ -8,12 +8,11 @@
 import * as github from '@actions/github';
 import * as core from '@actions/core';
 
-import {addLabels, getPrNumber, removeLabels} from './utils';
+import {addLabels, getPrNumber} from './utils';
 
 enum BotInput {
   GITHUB_TOKEN = 'GITHUB_TOKEN',
-  TRIGGER_LABEL = 'label',
-  POST_MERGE_LABEL = 'post_merged_label',
+  MERGED_LABEL = 'merged_label',
 }
 
 async function run(): Promise<void> {
@@ -35,27 +34,21 @@ async function run(): Promise<void> {
       pull_number: prNumber,
     });
 
-    const triggerLabel: string = core.getInput(BotInput.TRIGGER_LABEL).trim();
+    const mergedLabel: string = core.getInput(BotInput.MERGED_LABEL).trim();
     // check if bot should run
     if (
       pullRequest.labels.findIndex(
-        (existingLabel) => existingLabel.name === triggerLabel
-      ) === -1
+        (existingLabel) => existingLabel.name === mergedLabel
+      ) !== -1
     ) {
-      console.log("Pull request doesn't have the trigger label, exiting");
+      console.log('Pull request already has the label, exiting');
 
       return;
     }
 
-    const postMergedLabel: string = core
-      .getInput(BotInput.POST_MERGE_LABEL)
-      .trim();
     // Add post-merge label to PR
-    await addLabels(octokit, prNumber, [postMergedLabel]);
+    await addLabels(octokit, prNumber, [mergedLabel]);
     console.log('Label added to pull request');
-
-    await removeLabels(octokit, prNumber, [triggerLabel]);
-    console.log('Removed bot trigger label from pull request, exiting');
   } catch (err) {
     core.setFailed(err.message);
   }

@@ -1,11 +1,7 @@
 name: 'Label PR on Merge Bot'
 description: 'Label pull requests with custom label on merge'
 inputs:
-  label:
-    description: 'Label for the bot to trigger'
-    required: false
-    default: 'label on merge'
-  post_merged_label:
+  merged_label:
     description: 'Label for the PR after it is merged'
     required: false
     default: 'merged'

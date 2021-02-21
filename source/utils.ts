@@ -21,20 +21,3 @@ export async function addLabels(
     labels,
   });
 }
-
-export async function removeLabels(
-  client: any,
-  prNumber: number,
-  labels: string[]
-): Promise<void> {
-  await Promise.all(
-    labels.map((label) =>
-      client.issues.removeLabel({
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo,
-        issue_number: prNumber,
-        name: label,
-      })
-    )
-  );
-}
