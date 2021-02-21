@@ -28,6 +28,10 @@
 </p>
 <hr />
 
+Bot will add merge label to the PR once it's merged
+![screenshot 2](.github/screenshots/screenshot-1.png)
+
+
 ❤️ it? ⭐️ it on [GitHub](https://github.com/abhijithvijayan/label-pr-on-merge-bot/stargazers) or [Tweet](https://twitter.com/intent/tweet?text=Check%20out%20label-pr-on-merge-bot%21%20by%20%40_abhijithv%0A%0AGitHub%20Actions%20Bot%20to%20label%20pull%20requests%20with%20custom%20label%20on%20merge%0Ahttps%3A%2F%2Fgithub.com%2Fabhijithvijayan%2Flabel-pr-on-merge-bot%0A%0A%23node%20%23javascript%20%23github%20%23bot%20%23npm) about it.
 
 ## Table of Contents
